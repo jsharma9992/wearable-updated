@@ -1,0 +1,25 @@
+# Core dependencies
+easyocr==1.7.1
+paddleocr>=2.7.0
+paddlepaddle>=2.6.0
+opencv-python>=4.8.1.78
+numpy>=1.24.4
+Pillow>=10.0.1
+
+# Text-to-speech
+pyttsx3==2.90
+pyobjc-core; sys_platform == 'darwin'
+pyobjc-framework-Cocoa; sys_platform == 'darwin'
+
+# Voice control
+SpeechRecognition
+
+# Optional: For Windows native TTS (more reliable on Windows)
+# pywin32==306; sys_platform == 'win32'
+
+# Optional: For finger tracking mode
+# mediapipe==0.10.9
+
+# Utilities
+torch==2.1.0
+torchvision==0.16.0
