@@ -1,156 +1,131 @@
-# Wearable AI Reading Cap
+# Wearable AI Reading Cap 👓📖
 
-A computer vision-based assistive system that reads printed text aloud using a camera and OCR. The goal is to help visually impaired users read books, labels, or printed documents using a wearable device.
+[![Python](https://img.shields.io/badge/Python-3.9+-blue.svg)](https://www.python.org/downloads/)
+[![OpenCV](https://img.shields.io/badge/OpenCV-4.8+-green.svg)](https://opencv.org/)
+[![PaddleOCR](https://img.shields.io/badge/OCR-PaddleOCR%20%7C%20EasyOCR-orange.svg)](https://github.com/PaddlePaddle/PaddleOCR)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-The system is currently tested on a laptop using webcam input. Target deployment is a Raspberry Pi–based wearable device.
+An advanced, computer vision-based assistive system designed to help visually impaired individuals read printed text. By combining high-performance OCR engines with intelligent scene understanding and spatial guidance, the system provides a seamless "point-and-read" experience.
 
+---
 
-## Overview
-https://github.com/harshrarora/wearable-ocr-reader
-The system captures frames from a camera, detects text regions, extracts text using OCR, and reads it aloud. A stability check ensures OCR runs only when the camera frame is steady, and a state machine prevents repeated reading of the same text when the camera remains pointed at the same page.
+## 🌟 Key Features
 
-The architecture is modular and divided into three layers:
-- Perception (vision processing)
-- Intelligence (OCR and text processing)
-- Interaction (guidance and speech output)
+-   **🚀 Dual-Engine OCR Pipeline**: Utilizes **PaddleOCR** as the primary engine for industry-leading accuracy, with **EasyOCR** as a robust fallback.
+-   **👁️ Intelligent Scene Understanding**:
+    *   **Stability Detection**: Optical flow-based analysis ensures captures only happen when the camera is steady.
+    *   **Document Detection**: Automatic page boundary identification and perspective correction (deskewing).
+    *   **Region of Interest (ROI)**: Focuses processing on detected text areas to optimize performance.
+-   **🧠 Smart Processing**:
+    *   **Temporal OCR Fusion**: Combines results from multiple frames to eliminate "glitchy" reads caused by lighting or motion.
+    *   **Advanced Preprocessing**: CLAHE, denoising, and adaptive thresholding for clear extraction even in low light.
+-   **🗣️ Human-Centric Interaction**:
+    *   **Spatial Guidance**: Real-time audio cues (e.g., "Move left," "Centered") to help users align the camera.
+    *   **Threaded TTS**: Non-blocking text-to-speech using `pyttsx3` with native macOS/Windows fallbacks.
+    *   **Voice Control**: Hands-free operation via voice commands like "Capture," "Stop," and "Repeat."
+-   **🔄 Hybrid Modes**:
+    *   **Trigger Mode**: High-accuracy burst capture on command.
+    *   **Continuous Mode**: Hands-free scanning with automatic reading and deduplication.
 
-## Features
+---
 
-- Real-time text detection from camera frames
-- OCR using EasyOCR
-- Motion stability detection to avoid blurred reads
-- Text cleaning before speech output
-- Text-to-speech reading using pyttsx3
-- State machine to prevent repeated reading of the same text
-- Optional document boundary detection
+## 🏗️ System Architecture
 
+The system follows a modular, three-layer architecture to ensure hardware portability and maintainability.
 
-## System Architecture
-
-```
-┌─────────────────────────────────────────────────────────┐
-│                    CAMERA INPUT                         │
-└────────────────────┬────────────────────────────────────┘
-                     │
-        ┌────────────▼────────────┐
-        │  PERCEPTION LAYER       │
-        ├─────────────────────────┤
-        │ • Stability Detection   │
-        │ • Text Detection        │
-        │ • Document Detection    │
-        │ • Finger Tracking       │                         
-        └────────────┬────────────┘
-                     │
-        ┌────────────▼────────────┐
-        │  INTELLIGENCE LAYER     │
-        ├─────────────────────────┤
-        │ • Intent Resolution     │
-        │ • OCR Engine            │
-        │ • OCR Fusion            │
-        │ • Text Cleaning         │
-        └────────────┬────────────┘
-                     │
-        ┌────────────▼────────────┐
-        │  INTERACTION LAYER      │
-        ├─────────────────────────┤
-        │ • Spatial Guidance      │
-        │ • TTS Manager           │
-        │ • State Machine         │
-        └─────────────────────────┘
-```
-
-### Module Breakdown
-
-**Perception:**
-- `stability.py` - Optical flow-based motion detection
-- `text_detector.py` - EasyOCR-based text region detection
-- `document_detector.py` - Page boundary detection via contour analysis
-- `finger_tracker.py` - Experimental MediaPipe-based hand tracking module
-
-**Intelligence:**
-- `intent_resolver.py` - Decision logic for system modes
-- `ocr_engine.py` - Image preprocessing + OCR execution
-- `ocr_fusion.py` - Temporal fusion across multiple frames
-- `text_cleaner.py` - Post-processing for clean TTS output
-
-**Interaction:**
-- `guidance.py` - Spatial positioning audio cues
-- `tts_manager.py` - Threaded text-to-speech
-- `state_machine.py` - System state management
-
-
-## Project Structure
-
-```
-wearable-ocr-reader/
-├── camera/
-│   └── camera_manager.py      
-├── perception/
-│   ├── stability.py          
-│   ├── text_detector.py      
-│   ├── document_detector.py   
-│   └── finger_tracker.py  #experimental module  
-├── intelligence/
-│   ├── intent_resolver.py    
-│   ├── ocr_engine.py          
-│   ├── ocr_fusion.py          
-│   └── text_cleaner.py        
-├── interaction/
-│   ├── guidance.py            
-│   ├── tts_manager.py         
-│   └── state_machine.py       
-├── utils/
-│   └── logger.py              
-├── config.py                  
-├── main.py                   
-└── requirements.txt           
+```mermaid
+graph TD
+    A[Camera Input] --> B[Perception Layer]
+    subgraph "Perception Layer (Vision)"
+        B1[Stability Detection]
+        B2[Text Detector]
+        B3[Document Detection]
+    end
+    B --> C[Intelligence Layer]
+    subgraph "Intelligence Layer (Cognition)"
+        C1[Intent Resolver]
+        C2[Dual-Engine OCR]
+        C3[OCR Fusion]
+        C4[Text Cleaner]
+    end
+    C --> D[Interaction Layer]
+    subgraph "Interaction Layer (UX)"
+        D1[Spatial Guidance]
+        D2[TTS Manager]
+        D3[Voice Controller]
+        D4[State Machine]
+    end
+    D --> E[Audio Output]
 ```
 
-## Configuration
+---
 
-All tunable parameters are in `config.py`:
+## 📂 Project Structure
 
-```python
-# Key settings you might want to adjust:
-CAMERA_INDEX = 0               # Change if using external webcam
-OCR_LANGUAGES = ["en"]         # Add more: ["en", "hi", "es"]
-TTS_RATE = 160                 # Speech speed (words per minute)
-STABILITY_THRESHOLD = 2.0      # Lower = stricter stability requirement
+```text
+wearable-updated/
+├── camera/             # Camera ingestion & hardware interface
+├── perception/         # Computer Vision (Stability, Detection, ROI)
+├── intelligence/       # OCR Engine, Fusion logic, & Text Processing
+├── interaction/        # TTS, Voice Control, & Guidance Systems
+├── utils/              # Logging & system-wide utilities
+├── main.py             # System entry point & main event loop
+├── config.py           # Global parameters & tunable thresholds
+└── requirements.txt    # Project dependencies
 ```
 
-## Technologies Used
+---
 
-- Python
-- OpenCV
-- EasyOCR
-- NumPy
-- pyttsx3
+## 🛠️ Installation & Setup
 
-## Installation
+### 1. Prerequisites
+- Python 3.9 or higher
+- A webcam or external camera module
 
-1. Clone the repository
+### 2. Clone the Repository
 ```bash
-git clone https://github.com/harshrarora/wearable-ocr-reader.git
-cd wearable-ocr-reader
+git clone https://github.com/jsharma9992/wearable-updated.git
+cd wearable-updated
 ```
 
-2. Install dependencies
+### 3. Install Dependencies
 ```bash
 pip install -r requirements.txt
 ```
+> **Note:** PaddleOCR may require additional setup depending on your OS (e.g., `paddlepaddle` or `paddlepaddle-gpu`).
 
-3. Run the system
+### 4. Configuration
+Adjust system thresholds, camera index, and OCR preferences in `config.py`:
+```python
+CAMERA_INDEX = 0               # Device index
+OCR_PRIMARY = "paddle"         # "paddle" or "easyocr"
+STABILITY_THRESHOLD = 2.0      # Lower = stricter stability
+```
+
+### 5. Run
 ```bash
 python main.py
 ```
 
-**Note:** On first run, EasyOCR will download language models (~100MB).
+---
 
-## Current Status
+## 📈 Roadmap & Current Status
 
-- Text detection and OCR working
-- Stability detection working
-- Text-to-speech working
-- Spatial guidance system under testing
-- Finger tracking module included but not fully tested
-- Raspberry Pi deployment planned
+-   [x] **Dual OCR Integration**: PaddleOCR (Primary) + EasyOCR (Fallback).
+-   [x] **Advanced Preprocessing**: Deskewing and contrast enhancement.
+-   [x] **Temporal Fusion**: Improved reliability across frame bursts.
+-   [x] **Spatial Guidance**: Audio-based alignment assistance.
+-   [x] **Voice Control**: Basic command integration.
+-   [ ] **Currency Detection**: Specialized module for banknote identification (In Progress).
+-   [ ] **Hardware Portability**: Full optimization for Raspberry Pi 5.
+-   [ ] **Hand Tracking**: Interactive "point-at-word" reading via MediaPipe.
+
+---
+
+## 📄 License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+---
+
+**Developed for the Wearable AI Reading Project.** Helping the world see through sound. 🔊✨
