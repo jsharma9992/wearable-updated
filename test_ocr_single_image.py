@@ -19,7 +19,7 @@ def test_ocr(image_path):
             from paddleocr import PaddleOCR
             import logging as plogging
             plogging.getLogger("ppocr").setLevel(plogging.ERROR)
-            paddle_reader = PaddleOCR(use_angle_cls=True, lang='en', show_log=False)
+            paddle_reader = PaddleOCR(use_textline_orientation=True, lang='en')
         except ImportError:
             print("PaddleOCR not installed")
             

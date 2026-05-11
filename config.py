@@ -12,7 +12,7 @@ Every tunable parameter lives here — nothing is hard-coded in modules.
 #
 # # IP camera URL (IP Webcam app)
 # IP_CAMERA_URL = "http://172.16.167.13:8080//video"
-CAMERA_INDEX = 1   # 0 = default webcam / Pi Camera
+CAMERA_INDEX = 0   # 0 = default webcam / Pi Camera
 CAMERA_WIDTH = 640
 CAMERA_HEIGHT = 480
 CAMERA_FPS = 30

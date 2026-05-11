@@ -545,7 +545,7 @@ class WearableReader:
             plogging.getLogger("ppocr").setLevel(plogging.ERROR)
             logger.info("Loading PaddleOCR model...")
             # English model, angle classification on
-            reader = PaddleOCR(use_angle_cls=True, lang='en', show_log=False)
+            reader = PaddleOCR(use_textline_orientation=True, lang='en')
             logger.info("PaddleOCR ready")
             return reader
         except ImportError:
