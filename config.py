@@ -108,7 +108,7 @@ READ_COOLDOWN = 10.0                # seconds before re-reading same region
 # ═══════════════════════════════════════════════════════════
 #  VOICE  CONTROL
 # ═══════════════════════════════════════════════════════════
-VOICE_ENABLED = False              # Enable voice command recognition
+VOICE_ENABLED = True              # Enable voice command recognition
 VOICE_LANGUAGE = "en-US"           # Speech recognition language
 VOICE_TIMEOUT = 3.0                # Max seconds to wait for phrase start
 VOICE_PHRASE_LIMIT = 2.0           # Max seconds for phrase duration

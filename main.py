@@ -506,16 +506,16 @@ class WearableReader:
 
         # Keyboard controls
         key = cv2.waitKey(1) & 0xFF
-        if key == ord("q"):
+        if key in (ord("q"), ord("Q")):
             self._running = False
-        elif key == ord("c"):
+        elif key in (ord("c"), ord("C")):
             self._handle_capture_command()
-        elif key == ord("m"):
+        elif key in (ord("m"), ord("M")):
             new_mode = "continuous" if self.current_mode == "trigger" else "trigger"
             self._switch_mode(new_mode)
-        elif key == ord("r"):
+        elif key in (ord("r"), ord("R")):
             self._repeat_last()
-        elif key == ord("n"):
+        elif key in (ord("n"), ord("N")):
             self._count_money()
 
     # ── Helpers ────────────────────────────────────────────

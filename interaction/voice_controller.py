@@ -137,10 +137,10 @@ class VoiceController:
                         phrase_time_limit=self.phrase_time_limit
                     )
 
-                # OFFLINE-ONLY: Use pocketsphinx (no internet required)
+                # USE GOOGLE SPEECH RECOGNITION (Requires internet, but 100x more accurate)
                 try:
-                    text = self.recognizer.recognize_sphinx(audio)
-                    logger.debug(f"Heard: '{text}'")
+                    text = self.recognizer.recognize_google(audio)
+                    logger.info(f"Heard: '{text}'")
                 except sr.UnknownValueError:
                     # Could not understand audio
                     continue
